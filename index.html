@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Be My Valentine 💖</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8cdda, #fbd3e9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            width: 440px;
+            padding: 30px;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .buttons {
+            position: relative;
+            height: 60px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 28px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #yes {
+            background: #ff5a8a;
+            color: white;
+        }
+
+        #no {
+            background: #eee;
+            position: absolute;
+        }
+
+        video {
+            width: 100%;
+            height: 200px;
+            border-radius: 14px;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- First page -->
+    <div id="page1" class="card">
+        <div style="font-size:70px;">🐱💖</div>
+        <h2>Niral will you be my valentine?</h2>
+
+        <div class="buttons">
+            <button id="yes">Yes 💕</button>
+            <button id="no">No 😅</button>
+        </div>
+
+        <p style="font-size:12px;color:gray;">"No" seems a bit shy 😅</p>
+    </div>
+
+    <!-- Second page -->
+    <div id="page2" class="card hidden">
+        <div style="font-size:64px;">🐱💖</div>
+        <h2>Niral will you be my valentine?</h2>
+        <h1>YAY! 🎉</h1>
+
+        <video autoplay loop muted playsinline controls>
+            <source src="kiss.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <!-- Background Music (shared for both views) -->
+    <audio id="bg-audio" loop>
+        <source src="Dooron Dooron(KoshalWorld.Com).mp3" type="audio/mp3" />
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const audio = document.getElementById("bg-audio");
+        const page1 = document.getElementById("page1");
+        const page2 = document.getElementById("page2");
+        const yesBtn = document.getElementById("yes");
+        const noBtn = document.getElementById("no");
+
+        // Try to start audio at 66s as soon as possible
+        audio.addEventListener("loadedmetadata", () => {
+            audio.currentTime = 66;
+            audio.play().catch(() => {
+                // If autoplay with sound is blocked, start on first click anywhere
+                document.body.addEventListener(
+                    "click",
+                    () => {
+                        audio.currentTime = 66;
+                        audio.play();
+                    },
+                    { once: true }
+                );
+            });
+        });
+
+        // Moving "No" button
+        noBtn.addEventListener("mouseenter", () => {
+            noBtn.style.position = "fixed";
+            noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+        });
+
+        // "Yes" -> show second card, keep same page so music continues
+        yesBtn.addEventListener("click", () => {
+            page1.classList.add("hidden");
+            page2.classList.remove("hidden");
+        });
+    </script>
+</body>
+
+</html>
